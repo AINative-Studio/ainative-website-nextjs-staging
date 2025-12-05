@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "@/components/providers/Providers";
 import "./globals.css";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +40,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "AINative Studio" }],
   creator: "AINative Studio",
-  metadataBase: new URL("https://www.ainative.studio"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.ainative.studio"
+  ),
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -80,6 +84,7 @@ export const viewport: Viewport = {
  * - Global fonts (Geist Sans & Mono)
  * - Theme provider (light/dark mode)
  * - React Query provider
+ * - Header and Footer
  * - Global styles
  */
 export default function RootLayout({
@@ -92,7 +97,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          <main className="pt-16 min-h-screen">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
